@@ -1,4 +1,4 @@
-import Rooms from "@/components/rooms";
+import Home from "@/components/home";
 import { ScrollView } from "react-native";
 
 export default function Index() {
@@ -9,7 +9,7 @@ export default function Index() {
         backgroundColor: "#1a0f2e",
       }}
     >
-      <Rooms />
+      <Home />
     </ScrollView>
   );
 }

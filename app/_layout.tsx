@@ -7,7 +7,19 @@ export default function RootLayout() {
         name="index" 
         options={{ 
           headerShown: false,
-          title: "Rooms"
+          title: "Home"
+        }} 
+      />
+      <Stack.Screen 
+        name="rooms" 
+        options={{ 
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#1a0f2e",
+          },
+          headerTintColor: "#e8d4ff",
+          headerTitle: "Rooms",
+          headerBackTitle: "",
         }} 
       />
       <Stack.Screen 

@@ -135,6 +135,92 @@ const getRoomData = (id: string) => {
                 },
             ]
         },
+        "4": {
+            name: "Computer Lab",
+            location: "Van Houten Library",
+            icon: require('../../assets/images/keyboard.png'),
+            noiseLevel: "Low",
+            motionLevel: "Medium",
+            amenities: [
+                { icon: require('../../assets/images/wifi.png'), name: "Wi-Fi" },
+                { icon: require('../../assets/images/outlet.png'), name: "Outlets" },
+                { icon: require('../../assets/images/keyboard.png'), name: "Computers" },
+            ],
+            rating: 4.3,
+            reviewCount: 41,
+            activityData: [
+                { time: "8am", level: 20 },
+                { time: "10am", level: 55 },
+                { time: "12pm", level: 80 },
+                { time: "2pm", level: 95 },
+                { time: "4pm", level: 85 },
+                { time: "6pm", level: 65 },
+                { time: "8pm", level: 70 },
+            ],
+            activityBadge: { text: "→ Normal activity levels", color: "#fbbf24" },
+            comments: [
+                {
+                    user: "Chris B.",
+                    date: "1 day ago",
+                    rating: 5,
+                    comment: "All computers have updated software and dual monitors. Great for coding projects!"
+                },
+                {
+                    user: "Maya S.",
+                    date: "4 days ago",
+                    rating: 4,
+                    comment: "Good lab with fast computers. Can get crowded in the afternoon but usually a seat available."
+                },
+                {
+                    user: "Dev P.",
+                    date: "1 week ago",
+                    rating: 4,
+                    comment: "Solid workspace for CS assignments. Quiet environment, everyone respects the study vibe."
+                },
+            ]
+        },
+        "5": {
+            name: "CKB Lounge",
+            location: "Central King Building",
+            icon: require('../../assets/images/lounge.png'),
+            noiseLevel: "Medium",
+            motionLevel: "High",
+            amenities: [
+                { icon: require('../../assets/images/wifi.png'), name: "Wi-Fi" },
+            ],
+            rating: 3.6,
+            reviewCount: 24,
+            activityData: [
+                { time: "8am", level: 35 },
+                { time: "10am", level: 65 },
+                { time: "12pm", level: 90 },
+                { time: "2pm", level: 75 },
+                { time: "4pm", level: 85 },
+                { time: "6pm", level: 55 },
+                { time: "8pm", level: 40 },
+            ],
+            activityBadge: { text: "↑ 15% busier than usual", color: "#f87171" },
+            comments: [
+                {
+                    user: "Riley D.",
+                    date: "2 days ago",
+                    rating: 4,
+                    comment: "Chill spot to hang out and do light reading. Not for serious studying but good for breaks!"
+                },
+                {
+                    user: "Jamie L.",
+                    date: "5 days ago",
+                    rating: 3,
+                    comment: "Gets pretty noisy with people chatting. Fine if you're just reviewing notes between classes."
+                },
+                {
+                    user: "Pat K.",
+                    date: "1 week ago",
+                    rating: 4,
+                    comment: "Comfortable seating and decent WiFi. I come here to work on creative projects when I need a change of scenery."
+                },
+            ]
+        },
     };
     return rooms[id];
 };
