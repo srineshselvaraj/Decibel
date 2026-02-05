@@ -27,9 +27,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
-      "basePath": "/Decibel",
-      "favicon": "./assets/images/favicon.png"
+      "output": "static"
     },
     "plugins": [
       "expo-router",
