@@ -26,7 +26,9 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
+      "bundler": "metro",
       "output": "static",
+      "basePath": "/Decibel",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
