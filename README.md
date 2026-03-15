@@ -6,4 +6,4 @@ Decibel utilizes motion and volume sensors to detect current activity in spaces 
 
 [Check out Decibel here!](https://decibel-njit.vercel.app)
 
-**Disclaimer:** This app is a prototype, so some features are still in development and may not work as intended.
+**Disclaimer:** This app is a prototype, so some features are still in development and may not be fully functional.
