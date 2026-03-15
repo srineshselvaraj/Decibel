@@ -216,7 +216,7 @@ export default function Rooms() {
             
             {/* Filter Button */}
             <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
-                <Image source={require('../assets/images/filter.png')} style={styles.filterIcon} />
+                <Image source={require('../assets/images/filter.png')} style={styles.filterIcon} resizeMode="contain" />
                 <Text style={styles.filterButtonText}>Filter</Text>
                 {getActiveFilterCount() > 0 && (
                     <View style={styles.filterBadge}>
@@ -244,7 +244,7 @@ export default function Rooms() {
                     onPress={() => handleRoomPress(room)}
                 >
                     <View style={styles.roomHeader}>
-                        <Image source={room.icon} style={styles.iconPlaceholder} />
+                        <Image source={room.icon} style={styles.iconPlaceholder} resizeMode="contain" />
                         <View style={styles.roomInfo}>
                             <Text style={styles.roomName} numberOfLines={2} ellipsizeMode="tail">
                                 {room.name}
@@ -258,7 +258,7 @@ export default function Rooms() {
                     
                     <View style={styles.levelsContainer}>
                         <View style={styles.levelItem}>
-                            <Image source={require('../assets/images/noise.png')} style={styles.iconPlaceholderSmall} />
+                            <Image source={require('../assets/images/noise.png')} style={styles.iconPlaceholderSmall} resizeMode="contain" />
                             <View style={styles.levelInfo}>
                                 <Text style={styles.levelLabel}>Noise</Text>
                                 <Text style={[styles.levelValue, getLevelStyle(room.noiseLevel)]}>
@@ -267,7 +267,7 @@ export default function Rooms() {
                             </View>
                         </View>
                         <View style={styles.levelItem}>
-                            <Image source={require('../assets/images/motion.png')} style={styles.iconPlaceholderSmall} />
+                            <Image source={require('../assets/images/motion.png')} style={styles.iconPlaceholderSmall} resizeMode="contain" />
                             <View style={styles.levelInfo}>
                                 <Text style={styles.levelLabel}>Motion</Text>
                                 <Text style={[styles.levelValue, getLevelStyle(room.motionLevel)]}>
@@ -431,6 +431,7 @@ const styles = StyleSheet.create({
     },
     container: {
         paddingTop: 20,
+        paddingHorizontal: 20,
         paddingBottom: 30,
         alignItems: "center",
     },
@@ -449,7 +450,9 @@ const styles = StyleSheet.create({
         borderColor: "#4a3566",
         borderRadius: 16,
         marginBottom: 20,
-        width: 350,
+        width: "100%",
+        maxWidth: 900,
+        alignSelf: "center",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,

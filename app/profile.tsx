@@ -1,5 +1,6 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { router } from "expo-router";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
     getProfile,
@@ -27,10 +28,17 @@ const roomNames: Record<string, string> = {
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(getProfile());
+  const [savedRoomIds, setSavedRoomIds] = useState<string[]>(getSavedRoomIds());
+
+  useFocusEffect(
+    useCallback(() => {
+      setSavedRoomIds([...getSavedRoomIds()]);
+    }, [])
+  );
 
   const savedRooms = useMemo(() => {
-    return getSavedRoomIds().slice(0, 3).map((id) => roomNames[id] ?? `Room ${id}`);
-  }, [profile]);
+    return savedRoomIds.slice(0, 3).map((id) => roomNames[id] ?? `Room ${id}`);
+  }, [savedRoomIds]);
 
   const setNoise = (value: NoiseMotionLevel) => {
     updateProfile({ preferredNoise: value });

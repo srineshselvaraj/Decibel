@@ -1,5 +1,6 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { getSavedRoomIds, toggleSavedRoom } from "../data/profile-store";
 
@@ -158,6 +159,12 @@ const getLevelStyle = (level: string) => {
 export default function SavedRoomsPage() {
   const [savedRoomIds, setSavedRoomIds] = useState<string[]>(getSavedRoomIds());
 
+  useFocusEffect(
+    useCallback(() => {
+      setSavedRoomIds([...getSavedRoomIds()]);
+    }, [])
+  );
+
   const savedRooms = allRooms.filter((room) => savedRoomIds.includes(room.id));
 
   const handleToggleSave = (roomId: string) => {
@@ -188,7 +195,7 @@ export default function SavedRoomsPage() {
             onPress={() => router.push(`/room/${room.id}?name=${encodeURIComponent(room.name)}` as any)}
           >
             <View style={styles.roomHeader}>
-              <Image source={room.icon} style={styles.iconPlaceholder} />
+              <Image source={room.icon} style={styles.iconPlaceholder} resizeMode="contain" />
               <View style={styles.roomInfo}>
                 <Text style={styles.roomName}>{room.name}</Text>
                 <Text style={styles.roomLocation}>{room.location}</Text>
@@ -200,19 +207,28 @@ export default function SavedRoomsPage() {
 
             <View style={styles.levelsContainer}>
               <View style={styles.levelItem}>
-                <Image source={require("../assets/images/noise.png")} style={styles.iconPlaceholderSmall} />
+                <Image source={require("../assets/images/noise.png")} style={styles.iconPlaceholderSmall} resizeMode="contain" />
                 <View style={styles.levelInfo}>
                   <Text style={styles.levelLabel}>Noise</Text>
                   <Text style={[styles.levelValue, getLevelStyle(room.noiseLevel)]}>{room.noiseLevel}</Text>
                 </View>
               </View>
               <View style={styles.levelItem}>
-                <Image source={require("../assets/images/motion.png")} style={styles.iconPlaceholderSmall} />
+                <Image source={require("../assets/images/motion.png")} style={styles.iconPlaceholderSmall} resizeMode="contain" />
                 <View style={styles.levelInfo}>
                   <Text style={styles.levelLabel}>Motion</Text>
                   <Text style={[styles.levelValue, getLevelStyle(room.motionLevel)]}>{room.motionLevel}</Text>
                 </View>
               </View>
+            </View>
+
+            <View style={styles.amenitiesContainer}>
+              {room.amenities.map((amenity, index) => (
+                <View key={index} style={styles.amenityBox}>
+                  <Image source={amenity.icon} style={styles.iconPlaceholderTiny} resizeMode="contain" />
+                  <Text style={styles.amenityText}>{amenity.name}</Text>
+                </View>
+              ))}
             </View>
           </Pressable>
         ))
@@ -291,7 +307,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#4a3566",
     borderRadius: 16,
-    marginBottom: 16,
+    marginBottom: 20,
+    width: "100%",
+    maxWidth: 900,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
   },
   roomCardPressed: {
     opacity: 0.7,
@@ -342,6 +366,7 @@ const styles = StyleSheet.create({
   levelsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
+    marginBottom: 16,
     paddingVertical: 12,
     borderTopWidth: 1,
     borderBottomWidth: 1,
@@ -387,5 +412,34 @@ const styles = StyleSheet.create({
   },
   levelHigh: {
     color: "#f87171",
+  },
+  amenitiesContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  amenityBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#3d2857",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#5c4280",
+  },
+  iconPlaceholderTiny: {
+    width: 16,
+    height: 16,
+    borderRadius: 4,
+    marginRight: 6,
+    backgroundColor: "#e8d4ff",
+    padding: 2,
+  },
+  amenityText: {
+    fontSize: 14,
+    color: "#c7b3e0",
+    fontWeight: "500",
+    fontFamily: "System",
   },
 });

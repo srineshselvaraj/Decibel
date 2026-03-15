@@ -509,7 +509,7 @@ export default function RoomDetail() {
             {/* Room Info Section */}
             <View style={styles.infoCard}>
                 <View style={styles.roomHeader}>
-                    <Image source={room.icon} style={styles.roomIcon} />
+                    <Image source={room.icon} style={styles.roomIcon} resizeMode="contain" />
                     <View style={styles.roomTitleSection}>
                         <Text style={styles.roomName}>{room.name}</Text>
                         <Text style={styles.roomLocation}>{room.location}</Text>
@@ -521,14 +521,14 @@ export default function RoomDetail() {
 
                 <View style={styles.levelsSection}>
                     <View style={styles.levelBox}>
-                        <Image source={require('../../assets/images/noise.png')} style={styles.levelIcon} />
+                        <Image source={require('../../assets/images/noise.png')} style={styles.levelIcon} resizeMode="contain" />
                         <Text style={styles.levelLabel}>Noise Level</Text>
                         <Text style={[styles.levelValue, getLevelStyle(room.noiseLevel)]}>
                             {room.noiseLevel}
                         </Text>
                     </View>
                     <View style={styles.levelBox}>
-                        <Image source={require('../../assets/images/motion.png')} style={styles.levelIcon} />
+                        <Image source={require('../../assets/images/motion.png')} style={styles.levelIcon} resizeMode="contain" />
                         <Text style={styles.levelLabel}>Motion Level</Text>
                         <Text style={[styles.levelValue, getLevelStyle(room.motionLevel)]}>
                             {room.motionLevel}
@@ -541,7 +541,7 @@ export default function RoomDetail() {
                     <View style={styles.amenitiesGrid}>
                         {room.amenities.map((amenity: any, index: number) => (
                             <View key={index} style={styles.amenityItem}>
-                                <Image source={amenity.icon} style={styles.amenityIcon} />
+                                <Image source={amenity.icon} style={styles.amenityIcon} resizeMode="contain" />
                                 <Text style={styles.amenityText}>{amenity.name}</Text>
                             </View>
                         ))}

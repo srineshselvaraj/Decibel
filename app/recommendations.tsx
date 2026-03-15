@@ -208,7 +208,7 @@ export default function RecommendationsPage() {
           onPress={() => router.push(`/room/${room.id}?name=${encodeURIComponent(room.name)}` as any)}
         >
           <View style={styles.roomHeader}>
-            <Image source={room.icon} style={styles.iconPlaceholder} />
+            <Image source={room.icon} style={styles.iconPlaceholder} resizeMode="contain" />
             <View style={styles.roomInfo}>
               <Text style={styles.roomName}>{room.name}</Text>
               <Text style={styles.roomLocation}>{room.location}</Text>
@@ -220,14 +220,14 @@ export default function RecommendationsPage() {
 
           <View style={styles.levelsContainer}>
             <View style={styles.levelItem}>
-              <Image source={require("../assets/images/noise.png")} style={styles.iconPlaceholderSmall} />
+              <Image source={require("../assets/images/noise.png")} style={styles.iconPlaceholderSmall} resizeMode="contain" />
               <View style={styles.levelInfo}>
                 <Text style={styles.levelLabel}>Noise</Text>
                 <Text style={[styles.levelValue, getLevelStyle(room.noiseLevel)]}>{room.noiseLevel}</Text>
               </View>
             </View>
             <View style={styles.levelItem}>
-              <Image source={require("../assets/images/motion.png")} style={styles.iconPlaceholderSmall} />
+              <Image source={require("../assets/images/motion.png")} style={styles.iconPlaceholderSmall} resizeMode="contain" />
               <View style={styles.levelInfo}>
                 <Text style={styles.levelLabel}>Motion</Text>
                 <Text style={[styles.levelValue, getLevelStyle(room.motionLevel)]}>{room.motionLevel}</Text>
@@ -311,6 +311,9 @@ const styles = StyleSheet.create({
     borderColor: "#4a3566",
     borderRadius: 16,
     marginBottom: 20,
+    width: "100%",
+    maxWidth: 900,
+    alignSelf: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
