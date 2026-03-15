@@ -1,28 +1,9 @@
 # Decibel 🔊
 
-Decibel utilizes motion and volume sensors to detect current activity in spaces around college campuses, and relays this information to provide live-time, accurate information through a user application.
+### Winner of NJIT Verizon Smart Campus Competition! (Team Decibel)
 
-App concept made for NJIT Verizon Smart Campus Competition (Team Decibel)
+Decibel utilizes motion and volume sensors to detect current activity in spaces around college campuses and provide real-time, accurate information to students through a user-friendly mobile application.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+[Check out Decibel here!](https://decibel-njit.vercel.app)
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+**Disclaimer:** This app is a prototype, so some features are still in development and may not be fully functional.
