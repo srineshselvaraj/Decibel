@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { isRoomSaved, recordRoomView, toggleSavedRoom } from "../../data/profile-store";
 const getRoomData = (id: string) => {
     const rooms: any = {
         "1": {
@@ -145,6 +146,7 @@ const getRoomData = (id: string) => {
                 { icon: require('../../assets/images/wifi.png'), name: "Wi-Fi" },
                 { icon: require('../../assets/images/outlet.png'), name: "Outlets" },
                 { icon: require('../../assets/images/keyboard.png'), name: "Computers" },
+                { icon: require('../../assets/images/printer.png'), name: "Printer" },
             ],
             rating: 4.3,
             reviewCount: 41,
@@ -221,6 +223,227 @@ const getRoomData = (id: string) => {
                 },
             ]
         },
+        "6": {
+            name: "Lower Lounge",
+            location: "Kupfrian Hall",
+            icon: require('../../assets/images/lounge.png'),
+            noiseLevel: "Medium",
+            motionLevel: "Medium",
+            amenities: [
+                { icon: require('../../assets/images/wifi.png'), name: "Wi-Fi" },
+                { icon: require('../../assets/images/outlet.png'), name: "Outlets" },
+            ],
+            rating: 4.0,
+            reviewCount: 19,
+            activityData: [
+                { time: "8am", level: 30 },
+                { time: "10am", level: 55 },
+                { time: "12pm", level: 70 },
+                { time: "2pm", level: 75 },
+                { time: "4pm", level: 65 },
+                { time: "6pm", level: 50 },
+                { time: "8pm", level: 35 },
+            ],
+            activityBadge: { text: "→ Steady midday activity", color: "#fbbf24" },
+            comments: [
+                {
+                    user: "Nina H.",
+                    date: "2 days ago",
+                    rating: 4,
+                    comment: "Good in-between spot for studying after classes. Usually enough seating."
+                },
+                {
+                    user: "Ari M.",
+                    date: "6 days ago",
+                    rating: 4,
+                    comment: "Nice balance of quiet and movement. Great if you don't want total silence."
+                },
+                {
+                    user: "Leo P.",
+                    date: "1 week ago",
+                    rating: 4,
+                    comment: "Outlets are easy to find and Wi-Fi is stable."
+                },
+            ]
+        },
+        "7": {
+            name: "IDS 2",
+            location: "Martinson Hall",
+            icon: require('../../assets/images/room.png'),
+            noiseLevel: "Low",
+            motionLevel: "High",
+            amenities: [
+                { icon: require('../../assets/images/wifi.png'), name: "Wi-Fi" },
+                { icon: require('../../assets/images/outlet.png'), name: "Outlets" },
+                { icon: require('../../assets/images/tv.png'), name: "TV" },
+                { icon: require('../../assets/images/whiteboard.png'), name: "Whiteboard" },
+            ],
+            rating: 4.4,
+            reviewCount: 28,
+            activityData: [
+                { time: "8am", level: 20 },
+                { time: "10am", level: 45 },
+                { time: "12pm", level: 80 },
+                { time: "2pm", level: 90 },
+                { time: "4pm", level: 85 },
+                { time: "6pm", level: 60 },
+                { time: "8pm", level: 40 },
+            ],
+            activityBadge: { text: "↑ Busy during class blocks", color: "#f87171" },
+            comments: [
+                {
+                    user: "Zoe K.",
+                    date: "1 day ago",
+                    rating: 5,
+                    comment: "Excellent for team work. Whiteboard + TV setup is super useful."
+                },
+                {
+                    user: "Ryan T.",
+                    date: "4 days ago",
+                    rating: 4,
+                    comment: "Room stays quiet enough, but there’s frequent foot traffic nearby."
+                },
+                {
+                    user: "Mia C.",
+                    date: "1 week ago",
+                    rating: 4,
+                    comment: "Great collaborative space, especially for project meetings."
+                },
+            ]
+        },
+        "8": {
+            name: "Highlander Pub",
+            location: "Campus Center",
+            icon: require('../../assets/images/lounge.png'),
+            noiseLevel: "High",
+            motionLevel: "Low",
+            amenities: [
+                { icon: require('../../assets/images/wifi.png'), name: "Wi-Fi" },
+            ],
+            rating: 3.7,
+            reviewCount: 22,
+            activityData: [
+                { time: "8am", level: 15 },
+                { time: "10am", level: 35 },
+                { time: "12pm", level: 65 },
+                { time: "2pm", level: 75 },
+                { time: "4pm", level: 80 },
+                { time: "6pm", level: 90 },
+                { time: "8pm", level: 85 },
+            ],
+            activityBadge: { text: "↑ Louder in late afternoon", color: "#f87171" },
+            comments: [
+                {
+                    user: "Owen D.",
+                    date: "2 days ago",
+                    rating: 4,
+                    comment: "Not ideal for deep focus, but nice if you like studying with ambient noise."
+                },
+                {
+                    user: "Grace L.",
+                    date: "5 days ago",
+                    rating: 3,
+                    comment: "Comfortable spot and good Wi-Fi, but definitely louder than most study areas."
+                },
+                {
+                    user: "Noah B.",
+                    date: "1 week ago",
+                    rating: 4,
+                    comment: "Good for casual review sessions and quick laptop work."
+                },
+            ]
+        },
+        "9": {
+            name: "Technology Lab",
+            location: "PC Mall",
+            icon: require('../../assets/images/keyboard.png'),
+            noiseLevel: "Low",
+            motionLevel: "Low",
+            amenities: [
+                { icon: require('../../assets/images/wifi.png'), name: "Wi-Fi" },
+                { icon: require('../../assets/images/outlet.png'), name: "Outlets" },
+                { icon: require('../../assets/images/keyboard.png'), name: "Computers" },
+                { icon: require('../../assets/images/printer.png'), name: "Printer" },
+            ],
+            rating: 4.8,
+            reviewCount: 34,
+            activityData: [
+                { time: "8am", level: 25 },
+                { time: "10am", level: 40 },
+                { time: "12pm", level: 55 },
+                { time: "2pm", level: 60 },
+                { time: "4pm", level: 65 },
+                { time: "6pm", level: 50 },
+                { time: "8pm", level: 35 },
+            ],
+            activityBadge: { text: "↓ Quieter than average", color: "#4ade80" },
+            comments: [
+                {
+                    user: "Priya N.",
+                    date: "1 day ago",
+                    rating: 5,
+                    comment: "Perfect for technical work. The printer access is super convenient."
+                },
+                {
+                    user: "Ethan W.",
+                    date: "3 days ago",
+                    rating: 5,
+                    comment: "Very productive environment with solid computers and low distractions."
+                },
+                {
+                    user: "Sofia R.",
+                    date: "1 week ago",
+                    rating: 4,
+                    comment: "Reliable setup and plenty of outlets. Great for long sessions."
+                },
+            ]
+        },
+        "10": {
+            name: "Littman Library",
+            location: "Weston Hall",
+            icon: require('../../assets/images/room.png'),
+            noiseLevel: "Low",
+            motionLevel: "Low",
+            amenities: [
+                { icon: require('../../assets/images/wifi.png'), name: "Wi-Fi" },
+                { icon: require('../../assets/images/outlet.png'), name: "Outlets" },
+                { icon: require('../../assets/images/whiteboard.png'), name: "Whiteboard" },
+                { icon: require('../../assets/images/keyboard.png'), name: "Computers" },
+                { icon: require('../../assets/images/printer.png'), name: "Printer" },
+            ],
+            rating: 4.9,
+            reviewCount: 37,
+            activityData: [
+                { time: "8am", level: 15 },
+                { time: "10am", level: 25 },
+                { time: "12pm", level: 35 },
+                { time: "2pm", level: 45 },
+                { time: "4pm", level: 55 },
+                { time: "6pm", level: 50 },
+                { time: "8pm", level: 30 },
+            ],
+            activityBadge: { text: "↓ One of the quietest spaces", color: "#4ade80" },
+            comments: [
+                {
+                    user: "Daniel S.",
+                    date: "1 day ago",
+                    rating: 5,
+                    comment: "Incredible quiet zone. Best place for concentrated study on campus."
+                },
+                {
+                    user: "Hana J.",
+                    date: "4 days ago",
+                    rating: 5,
+                    comment: "Love having computers and printer nearby while still keeping a calm atmosphere."
+                },
+                {
+                    user: "Isaac M.",
+                    date: "1 week ago",
+                    rating: 5,
+                    comment: "My top pick for exams prep — quiet, clean, and very reliable amenities."
+                },
+            ]
+        },
     };
     return rooms[id];
 };
@@ -258,6 +481,20 @@ export default function RoomDetail() {
     const { id } = useLocalSearchParams();
     const room = getRoomData(id as string);
     const [selectedRating, setSelectedRating] = useState(0);
+    const [isSaved, setIsSaved] = useState(false);
+
+    useEffect(() => {
+        if (id) {
+            recordRoomView(id as string);
+            setIsSaved(isRoomSaved(id as string));
+        }
+    }, [id]);
+
+    const handleToggleSave = () => {
+        if (!id) return;
+        toggleSavedRoom(id as string);
+        setIsSaved(isRoomSaved(id as string));
+    };
 
     if (!room) {
         return (
@@ -277,6 +514,9 @@ export default function RoomDetail() {
                         <Text style={styles.roomName}>{room.name}</Text>
                         <Text style={styles.roomLocation}>{room.location}</Text>
                     </View>
+                    <TouchableOpacity style={styles.bookmarkButton} onPress={handleToggleSave}>
+                        <Text style={styles.bookmarkIcon}>{isSaved ? "★" : "☆"}</Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.levelsSection}>
@@ -423,6 +663,20 @@ const styles = StyleSheet.create({
     },
     roomTitleSection: {
         flex: 1,
+    },
+    bookmarkButton: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#3d2857",
+        borderWidth: 1,
+        borderColor: "#5c4280",
+    },
+    bookmarkIcon: {
+        fontSize: 20,
+        color: "#fbbf24",
     },
     roomName: {
         fontSize: 28,

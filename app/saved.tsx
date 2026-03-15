@@ -1,0 +1,391 @@
+import { router } from "expo-router";
+import { useState } from "react";
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { getSavedRoomIds, toggleSavedRoom } from "../data/profile-store";
+
+type Room = {
+  id: string;
+  name: string;
+  location: string;
+  icon: any;
+  noiseLevel: "Low" | "Medium" | "High";
+  motionLevel: "Low" | "Medium" | "High";
+  amenities: { icon: any; name: string }[];
+};
+
+const allRooms: Room[] = [
+  {
+    id: "1",
+    name: "Study Room 1",
+    location: "Maple Hall",
+    icon: require("../assets/images/room.png"),
+    noiseLevel: "Medium",
+    motionLevel: "Low",
+    amenities: [
+      { icon: require("../assets/images/wifi.png"), name: "Wi-Fi" },
+      { icon: require("../assets/images/tv.png"), name: "TV" },
+      { icon: require("../assets/images/outlet.png"), name: "Outlets" },
+    ],
+  },
+  {
+    id: "2",
+    name: "Commuter Lounge",
+    location: "Campus Center",
+    icon: require("../assets/images/lounge.png"),
+    noiseLevel: "High",
+    motionLevel: "High",
+    amenities: [
+      { icon: require("../assets/images/wifi.png"), name: "Wi-Fi" },
+      { icon: require("../assets/images/outlet.png"), name: "Outlets" },
+    ],
+  },
+  {
+    id: "3",
+    name: "Room 3052",
+    location: "Van Houten Library",
+    icon: require("../assets/images/room.png"),
+    noiseLevel: "Low",
+    motionLevel: "Low",
+    amenities: [
+      { icon: require("../assets/images/wifi.png"), name: "Wi-Fi" },
+      { icon: require("../assets/images/tv.png"), name: "TV" },
+      { icon: require("../assets/images/whiteboard.png"), name: "Whiteboard" },
+      { icon: require("../assets/images/outlet.png"), name: "Outlets" },
+    ],
+  },
+  {
+    id: "4",
+    name: "Computer Lab",
+    location: "Van Houten Library",
+    icon: require("../assets/images/keyboard.png"),
+    noiseLevel: "Low",
+    motionLevel: "Medium",
+    amenities: [
+      { icon: require("../assets/images/wifi.png"), name: "Wi-Fi" },
+      { icon: require("../assets/images/keyboard.png"), name: "Computers" },
+      { icon: require("../assets/images/outlet.png"), name: "Outlets" },
+      { icon: require("../assets/images/printer.png"), name: "Printer" },
+    ],
+  },
+  {
+    id: "5",
+    name: "CKB Lounge",
+    location: "Central King Building",
+    icon: require("../assets/images/lounge.png"),
+    noiseLevel: "Medium",
+    motionLevel: "High",
+    amenities: [{ icon: require("../assets/images/wifi.png"), name: "Wi-Fi" }],
+  },
+  {
+    id: "6",
+    name: "Lower Lounge",
+    location: "Kupfrian Hall",
+    icon: require("../assets/images/lounge.png"),
+    noiseLevel: "Medium",
+    motionLevel: "Medium",
+    amenities: [
+      { icon: require("../assets/images/wifi.png"), name: "Wi-Fi" },
+      { icon: require("../assets/images/outlet.png"), name: "Outlets" },
+    ],
+  },
+  {
+    id: "7",
+    name: "IDS 2",
+    location: "Martinson Hall",
+    icon: require("../assets/images/room.png"),
+    noiseLevel: "Low",
+    motionLevel: "High",
+    amenities: [
+      { icon: require("../assets/images/wifi.png"), name: "Wi-Fi" },
+      { icon: require("../assets/images/outlet.png"), name: "Outlets" },
+      { icon: require("../assets/images/tv.png"), name: "TV" },
+      { icon: require("../assets/images/whiteboard.png"), name: "Whiteboard" },
+    ],
+  },
+  {
+    id: "8",
+    name: "Highlander Pub",
+    location: "Campus Center",
+    icon: require("../assets/images/lounge.png"),
+    noiseLevel: "High",
+    motionLevel: "Low",
+    amenities: [{ icon: require("../assets/images/wifi.png"), name: "Wi-Fi" }],
+  },
+  {
+    id: "9",
+    name: "Technology Lab",
+    location: "PC Mall",
+    icon: require("../assets/images/keyboard.png"),
+    noiseLevel: "Low",
+    motionLevel: "Low",
+    amenities: [
+      { icon: require("../assets/images/wifi.png"), name: "Wi-Fi" },
+      { icon: require("../assets/images/outlet.png"), name: "Outlets" },
+      { icon: require("../assets/images/keyboard.png"), name: "Computers" },
+      { icon: require("../assets/images/printer.png"), name: "Printer" },
+    ],
+  },
+  {
+    id: "10",
+    name: "Littman Library",
+    location: "Weston Hall",
+    icon: require("../assets/images/room.png"),
+    noiseLevel: "Low",
+    motionLevel: "Low",
+    amenities: [
+      { icon: require("../assets/images/wifi.png"), name: "Wi-Fi" },
+      { icon: require("../assets/images/outlet.png"), name: "Outlets" },
+      { icon: require("../assets/images/whiteboard.png"), name: "Whiteboard" },
+      { icon: require("../assets/images/keyboard.png"), name: "Computers" },
+      { icon: require("../assets/images/printer.png"), name: "Printer" },
+    ],
+  },
+];
+
+const getLevelStyle = (level: string) => {
+  switch (level) {
+    case "Low":
+      return styles.levelLow;
+    case "Medium":
+      return styles.levelMedium;
+    case "High":
+      return styles.levelHigh;
+    default:
+      return {};
+  }
+};
+
+export default function SavedRoomsPage() {
+  const [savedRoomIds, setSavedRoomIds] = useState<string[]>(getSavedRoomIds());
+
+  const savedRooms = allRooms.filter((room) => savedRoomIds.includes(room.id));
+
+  const handleToggleSave = (roomId: string) => {
+    toggleSavedRoom(roomId);
+    setSavedRoomIds([...getSavedRoomIds()]);
+  };
+
+  return (
+    <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.container}>
+      <View style={styles.introCard}>
+        <Text style={styles.introTitle}>Saved Rooms</Text>
+        <Text style={styles.introText}>Your bookmarked study spaces for quick access.</Text>
+      </View>
+
+      {savedRooms.length === 0 ? (
+        <View style={styles.emptyCard}>
+          <Text style={styles.emptyTitle}>No saved rooms yet</Text>
+          <Text style={styles.emptyText}>Bookmark rooms from the Rooms or Recommendations pages.</Text>
+          <TouchableOpacity style={styles.browseButton} onPress={() => router.push('/rooms' as any)}>
+            <Text style={styles.browseButtonText}>Browse Rooms</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        savedRooms.map((room) => (
+          <Pressable
+            key={room.id}
+            style={({ pressed }) => [styles.roomCard, pressed && styles.roomCardPressed]}
+            onPress={() => router.push(`/room/${room.id}?name=${encodeURIComponent(room.name)}` as any)}
+          >
+            <View style={styles.roomHeader}>
+              <Image source={room.icon} style={styles.iconPlaceholder} />
+              <View style={styles.roomInfo}>
+                <Text style={styles.roomName}>{room.name}</Text>
+                <Text style={styles.roomLocation}>{room.location}</Text>
+              </View>
+              <TouchableOpacity style={styles.bookmarkButton} onPress={() => handleToggleSave(room.id)}>
+                <Text style={styles.bookmarkIcon}>★</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.levelsContainer}>
+              <View style={styles.levelItem}>
+                <Image source={require("../assets/images/noise.png")} style={styles.iconPlaceholderSmall} />
+                <View style={styles.levelInfo}>
+                  <Text style={styles.levelLabel}>Noise</Text>
+                  <Text style={[styles.levelValue, getLevelStyle(room.noiseLevel)]}>{room.noiseLevel}</Text>
+                </View>
+              </View>
+              <View style={styles.levelItem}>
+                <Image source={require("../assets/images/motion.png")} style={styles.iconPlaceholderSmall} />
+                <View style={styles.levelInfo}>
+                  <Text style={styles.levelLabel}>Motion</Text>
+                  <Text style={[styles.levelValue, getLevelStyle(room.motionLevel)]}>{room.motionLevel}</Text>
+                </View>
+              </View>
+            </View>
+          </Pressable>
+        ))
+      )}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+    backgroundColor: "#1a0f2e",
+  },
+  container: {
+    padding: 20,
+    paddingBottom: 30,
+  },
+  introCard: {
+    backgroundColor: "#2d1f47",
+    borderWidth: 1,
+    borderColor: "#4a3566",
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 18,
+  },
+  introTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#e8d4ff",
+    marginBottom: 6,
+    fontFamily: "System",
+  },
+  introText: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: "#c7b3e0",
+    fontFamily: "System",
+  },
+  emptyCard: {
+    backgroundColor: "#2d1f47",
+    borderWidth: 1,
+    borderColor: "#4a3566",
+    borderRadius: 16,
+    padding: 20,
+    alignItems: "center",
+  },
+  emptyTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#e8d4ff",
+    marginBottom: 8,
+    fontFamily: "System",
+  },
+  emptyText: {
+    fontSize: 14,
+    color: "#b8a3d1",
+    textAlign: "center",
+    marginBottom: 16,
+    fontFamily: "System",
+  },
+  browseButton: {
+    backgroundColor: "#8b5cf6",
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+  },
+  browseButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 14,
+    fontFamily: "System",
+  },
+  roomCard: {
+    padding: 20,
+    backgroundColor: "#2d1f47",
+    borderWidth: 1,
+    borderColor: "#4a3566",
+    borderRadius: 16,
+    marginBottom: 16,
+  },
+  roomCardPressed: {
+    opacity: 0.7,
+    transform: [{ scale: 0.98 }],
+  },
+  roomHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  roomInfo: {
+    flex: 1,
+  },
+  iconPlaceholder: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+    marginRight: 12,
+    backgroundColor: "#e8d4ff",
+    padding: 8,
+  },
+  roomName: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 4,
+    color: "#e8d4ff",
+    fontFamily: "System",
+  },
+  roomLocation: {
+    fontSize: 15,
+    color: "#b8a3d1",
+    fontFamily: "System",
+  },
+  bookmarkButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#3d2857",
+    borderWidth: 1,
+    borderColor: "#5c4280",
+  },
+  bookmarkIcon: {
+    fontSize: 18,
+    color: "#fbbf24",
+  },
+  levelsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "#4a3566",
+  },
+  levelItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  levelInfo: {
+    alignItems: "center",
+  },
+  iconPlaceholderSmall: {
+    width: 24,
+    height: 24,
+    borderRadius: 4,
+    marginRight: 8,
+    backgroundColor: "#e8d4ff",
+    padding: 4,
+  },
+  levelLabel: {
+    fontSize: 12,
+    color: "#9d88b8",
+    marginBottom: 4,
+    textTransform: "uppercase",
+    fontFamily: "System",
+  },
+  levelValue: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#e8d4ff",
+    fontFamily: "System",
+    minWidth: 70,
+    textAlign: "center",
+  },
+  levelLow: {
+    color: "#4ade80",
+  },
+  levelMedium: {
+    color: "#fbbf24",
+  },
+  levelHigh: {
+    color: "#f87171",
+  },
+});

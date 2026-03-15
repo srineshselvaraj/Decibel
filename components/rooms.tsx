@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { getSavedRoomIds, toggleSavedRoom } from "../data/profile-store";
 
 const roomsData = [
     {
@@ -53,6 +54,7 @@ const roomsData = [
             { icon: require('../assets/images/wifi.png'), name: "Wi-Fi" },
             { icon: require('../assets/images/outlet.png'), name: "Outlets" },
             { icon: require('../assets/images/keyboard.png'), name: "Computers" },
+            { icon: require('../assets/images/printer.png'), name: "Printer" },
         ]
     },
     {
@@ -64,6 +66,72 @@ const roomsData = [
         motionLevel: "High",
         amenities: [
             { icon: require('../assets/images/wifi.png'), name: "Wi-Fi" },
+        ]
+    },
+    {
+        id: "6",
+        name: "Lower Lounge",
+        location: "Kupfrian Hall",
+        icon: require('../assets/images/lounge.png'),
+        noiseLevel: "Medium",
+        motionLevel: "Medium",
+        amenities: [
+            { icon: require('../assets/images/wifi.png'), name: "Wi-Fi" },
+            { icon: require('../assets/images/outlet.png'), name: "Outlets" },
+        ]
+    },
+    {
+        id: "7",
+        name: "IDS 2",
+        location: "Martinson Hall",
+        icon: require('../assets/images/room.png'),
+        noiseLevel: "Low",
+        motionLevel: "High",
+        amenities: [
+            { icon: require('../assets/images/wifi.png'), name: "Wi-Fi" },
+            { icon: require('../assets/images/outlet.png'), name: "Outlets" },
+            { icon: require('../assets/images/tv.png'), name: "TV" },
+            { icon: require('../assets/images/whiteboard.png'), name: "Whiteboard" },
+        ]
+    },
+    {
+        id: "8",
+        name: "Highlander Pub",
+        location: "Campus Center",
+        icon: require('../assets/images/lounge.png'),
+        noiseLevel: "High",
+        motionLevel: "Low",
+        amenities: [
+            { icon: require('../assets/images/wifi.png'), name: "Wi-Fi" },
+        ]
+    },
+    {
+        id: "9",
+        name: "Technology Lab",
+        location: "PC Mall",
+        icon: require('../assets/images/keyboard.png'),
+        noiseLevel: "Low",
+        motionLevel: "Low",
+        amenities: [
+            { icon: require('../assets/images/wifi.png'), name: "Wi-Fi" },
+            { icon: require('../assets/images/outlet.png'), name: "Outlets" },
+            { icon: require('../assets/images/keyboard.png'), name: "Computers" },
+            { icon: require('../assets/images/printer.png'), name: "Printer" },
+        ]
+    },
+    {
+        id: "10",
+        name: "Littman Library",
+        location: "Weston Hall",
+        icon: require('../assets/images/room.png'),
+        noiseLevel: "Low",
+        motionLevel: "Low",
+        amenities: [
+            { icon: require('../assets/images/wifi.png'), name: "Wi-Fi" },
+            { icon: require('../assets/images/outlet.png'), name: "Outlets" },
+            { icon: require('../assets/images/whiteboard.png'), name: "Whiteboard" },
+            { icon: require('../assets/images/keyboard.png'), name: "Computers" },
+            { icon: require('../assets/images/printer.png'), name: "Printer" },
         ]
     },
 ];
@@ -83,14 +151,20 @@ export default function Rooms() {
     const [selectedNoise, setSelectedNoise] = useState<string[]>([]);
     const [selectedMotion, setSelectedMotion] = useState<string[]>([]);
     const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+    const [savedRoomIds, setSavedRoomIds] = useState<string[]>(getSavedRoomIds());
 
-    const locations = ["Maple Hall", "Campus Center", "Van Houten Library", "Central King Building"];
+    const locations = ["Maple Hall", "Campus Center", "Van Houten Library", "Central King Building", "Kupfrian Hall", "Martinson Hall", "PC Mall", "Weston Hall"];
     const noiseLevels = ["Low", "Medium", "High"];
     const motionLevels = ["Low", "Medium", "High"];
-    const amenities = ["Wi-Fi", "TV", "Whiteboard", "Outlets", "Computers"];
+    const amenities = ["Wi-Fi", "TV", "Whiteboard", "Outlets", "Computers", "Printer"];
 
     const handleRoomPress = (room: typeof roomsData[0]) => {
         router.push(`/room/${room.id}?name=${encodeURIComponent(room.name)}` as any);
+    };
+
+    const handleToggleSave = (roomId: string) => {
+        toggleSavedRoom(roomId);
+        setSavedRoomIds([...getSavedRoomIds()]);
     };
 
     const toggleFilter = (value: string, selected: string[], setSelected: (arr: string[]) => void) => {
@@ -177,6 +251,9 @@ export default function Rooms() {
                             </Text>
                             <Text style={styles.roomLocation}>{room.location}</Text>
                         </View>
+                        <TouchableOpacity style={styles.bookmarkButton} onPress={() => handleToggleSave(room.id)}>
+                            <Text style={styles.bookmarkIcon}>{savedRoomIds.includes(room.id) ? "★" : "☆"}</Text>
+                        </TouchableOpacity>
                     </View>
                     
                     <View style={styles.levelsContainer}>
@@ -410,6 +487,20 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#b8a3d1",
         fontFamily: "System",
+    },
+    bookmarkButton: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#3d2857",
+        borderWidth: 1,
+        borderColor: "#5c4280",
+    },
+    bookmarkIcon: {
+        fontSize: 18,
+        color: "#fbbf24",
     },
     levelsContainer: {
         flexDirection: "row",

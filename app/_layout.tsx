@@ -34,6 +34,54 @@ export default function RootLayout() {
           headerBackTitle: "",
         }} 
       />
+      <Stack.Screen 
+        name="decibot" 
+        options={{ 
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#1a0f2e",
+          },
+          headerTintColor: "#e8d4ff",
+          headerTitle: "DeciBot",
+          headerBackTitle: "",
+        }} 
+      />
+      <Stack.Screen 
+        name="recommendations" 
+        options={{ 
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#1a0f2e",
+          },
+          headerTintColor: "#e8d4ff",
+          headerTitle: "Recommendations",
+          headerBackTitle: "",
+        }} 
+      />
+      <Stack.Screen 
+        name="profile" 
+        options={{ 
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#1a0f2e",
+          },
+          headerTintColor: "#e8d4ff",
+          headerTitle: "Profile",
+          headerBackTitle: "",
+        }} 
+      />
+      <Stack.Screen 
+        name="saved" 
+        options={{ 
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#1a0f2e",
+          },
+          headerTintColor: "#e8d4ff",
+          headerTitle: "Saved",
+          headerBackTitle: "",
+        }} 
+      />
     </Stack>
   );
 }
